@@ -18,6 +18,10 @@ The original `.gitignore` had every line indented with spaces. Git treats leadin
 
 ## Verification
 
-- `/memory`: TODO, confirm `CLAUDE.md` shows as loaded
-- `/permissions`: TODO, confirm the allow / ask / deny rules above are listed
-- Asked "How do I run the tests here?": TODO, record the answer
+
+Checked in fresh `claude -p` sessions (Claude Code 2.1.292) from the project root:
+
+- **CLAUDE.md loaded** (the `/memory` check): asked to list its loaded memory files, the session listed this project's `CLAUDE.md`. It also listed a `CLAUDE.md` from an unrelated parent folder on my machine. That's expected, since Claude Code loads `CLAUDE.md` files from parent directories too, and it doesn't affect this repo.
+- **Answers from CLAUDE.md**: asked "How do I run the tests here?", it answered "Run `npm test` … Node's built-in runner (`node --test`)" and said the answer came from `CLAUDE.md` under "Commands".
+- **Deny rule works** (the `/permissions` check): I put a dummy `.env` in place holding only a fake value, then asked Claude to read it. The read was refused because of the deny rule, and Claude didn't try to get around it. I deleted the dummy file afterwards.
+- **Allow rules need workspace trust**: Claude Code warned that it was "Ignoring 4 permissions.allow entries … this workspace has not been trusted." Allow rules only take effect after the trust prompt has been accepted once in an interactive session. Deny rules apply either way, which is the safe default.
